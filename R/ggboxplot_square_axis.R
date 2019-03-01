@@ -5,8 +5,9 @@
 boxplot_square_axis <- function(data, title, xaxis_category, yaxis_category, xaxis, yaxis,
                                 show_both_eyes=FALSE,
                                 color_category=NULL,
-                                show_outliers=FALSE) {
-  font_size = 11;
+                                show_outliers=FALSE,
+                                font_size) {
+
   xaxis_category_factors <- paste('factor(', xaxis_category, ')' , sep = '' )
   color_category_factors <- paste('factor(', color_category, ')', sep= '')
 
