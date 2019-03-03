@@ -6,7 +6,7 @@ boxplot_square_axis <- function(data, title, xaxis_category, yaxis_category, xax
                                 show_both_eyes=FALSE,
                                 color_category=NULL,
                                 show_outliers=FALSE,
-                                font_size) {
+                                font_size=11) {
 
   xaxis_category_factors <- paste('factor(', xaxis_category, ')' , sep = '' )
   color_category_factors <- paste('factor(', color_category, ')', sep= '')
@@ -51,10 +51,11 @@ boxplot_square_axis <- function(data, title, xaxis_category, yaxis_category, xax
   }
 
   if (!show_outliers) {
-    p <- p + geom_boxplot(outlier.shape = NA)
+    p <- p + geom_boxplot(fatten = 1, outlier.shape = NA)
+  } else {
+    p <- p + geom_boxplot(fatten = 1)
   }
 
-  p <- p + geom_boxplot(fatten = 1)
   p <- p + stat_summary(fun.y = mean, geom = 'point', shape = 18, size = 2, position = position_dodge(width = 0.75))
   p <- p + coord_fixed(ratio = (xmax - xmin) / (ymax - ymin),
                        xlim = c(xmin, xmax),
