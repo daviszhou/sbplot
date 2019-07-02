@@ -5,7 +5,7 @@
 boxplot_square_axis <- function(data, title, xaxis_category, yaxis_category, xaxis, yaxis,
                                 show_both_eyes=FALSE,
                                 color_category=NULL,
-                                custom_whiskers=FALSE,
+                                custom_whiskers=TRUE,
                                 change_fill_color=TRUE,
                                 font_size=10) {
 
@@ -27,7 +27,7 @@ boxplot_square_axis <- function(data, title, xaxis_category, yaxis_category, xax
 
   if (show_both_eyes) {
     if (change_fill_color) {
-      p <- ggplot(data, aes_string(x = xaxis_category_factors, y = yaxis_category, fill=color_category_factors))
+      p <- ggplot(data, aes_string(x = xaxis_category_factors, y = yaxis_category, fill = color_category_factors))
       p <- p + scale_fill_manual(values = c('#999999', '#ffffff'), labels = c('OD', 'OS'))
     } else {
       p <- ggplot(data, aes_string(x = xaxis_category_factors, y = yaxis_category, color = color_category_factors))
