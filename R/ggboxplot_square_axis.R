@@ -5,15 +5,20 @@
 boxplot_square_axis <- function(data, title, xaxis_category, yaxis_category, xaxis, yaxis,
                                 show_both_eyes=FALSE,
                                 color_category=NULL,
-                                show_outliers=FALSE,
-                                font_size=11) {
+                                custom_whiskers=FALSE,
+                                font_size=10) {
 
-  xaxis_category_factors <- paste('factor(', xaxis_category, ')' , sep = '' )
+  xaxis_category_factors <- paste('factor(', xaxis_category, ')', sep = '' )
   color_category_factors <- paste('factor(', color_category, ')', sep= '')
 
   number_factors <- length(unique(data[[xaxis_category]]))
-  xmin <- 0.25
-  xmax <- number_factors + 0.75
+  if (number_factors <= 2) {
+    xmin <- 0.15
+    xmax <- number_factors + 0.85
+  } else {
+    xmin <- 0.25
+    xmax <- number_factors + 0.75
+  }
 
   yaxis_edge_padding <- max(yaxis) / 30
   ymin <- min(yaxis) - yaxis_edge_padding
@@ -29,7 +34,6 @@ boxplot_square_axis <- function(data, title, xaxis_category, yaxis_category, xax
     stop("ERROR: Please enter 'TRUE' or 'FALSE' to specify whether to plot both eyes")
   }
 
-  p <- p + stat_boxplot(geom ='errorbar', width = 0.5, position = position_dodge(width = 0.75))
   p <- p + scale_x_discrete(name = element_blank(), labels = xaxis)
   p <- p + theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
                               text = element_text(colour = '#000000', size = font_size),
@@ -50,10 +54,17 @@ boxplot_square_axis <- function(data, title, xaxis_category, yaxis_category, xax
     p <- p + theme(plot.margin = unit(c(2,4,-50,4), "pt"))
   }
 
-  if (!show_outliers) {
-    p <- p + geom_boxplot(fatten = 1, outlier.shape = NA)
+  if (custom_whiskers) {
+    make_custom_quartiles <- function(x) {
+      q <- quantile(x, probs = c(0.10, 0.25, 0.5, 0.75, 0.90))
+      names(q) <- c('ymin', 'lower', 'middle', 'upper', 'ymax')
+      return(q)
+    }
+    p <- p + stat_summary(fun.data=make_custom_quartiles, geom="errorbar", width = 0.5, position = position_dodge(width = 0.75)) # creates boxplot whiskers
+    p <- p + stat_summary(fun.data=make_custom_quartiles, fatten = 1, geom="boxplot", width = 0.6, position = position_dodge(width = 0.75)) # creates boxplots
   } else {
-    p <- p + geom_boxplot(fatten = 1)
+    p <- p + stat_boxplot(geom = 'errorbar', width = 0.5, position = position_dodge(width = 0.75)) # create boxplot whiskers
+    p <- p + geom_boxplot(fatten = 1, outlier.shape = NA) # creates boxplots
   }
 
   p <- p + stat_summary(fun.y = mean, geom = 'point', shape = 18, size = 2, position = position_dodge(width = 0.75))
