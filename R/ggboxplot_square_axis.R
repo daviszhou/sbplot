@@ -6,6 +6,7 @@ boxplot_square_axis <- function(data, title, xaxis_category, yaxis_category, xax
                                 show_both_eyes=FALSE,
                                 color_category=NULL,
                                 custom_whiskers=FALSE,
+                                change_fill_color=TRUE,
                                 font_size=10) {
 
   xaxis_category_factors <- paste('factor(', xaxis_category, ')', sep = '' )
@@ -25,9 +26,14 @@ boxplot_square_axis <- function(data, title, xaxis_category, yaxis_category, xax
   ymax <- max(yaxis) + yaxis_edge_padding
 
   if (show_both_eyes) {
-    p <- ggplot(data, aes_string(x = xaxis_category_factors, y = yaxis_category, color = color_category_factors))
+    if (change_fill_color) {
+      p <- ggplot(data, aes_string(x = xaxis_category_factors, y = yaxis_category, fill=color_category_factors))
+      p <- p + scale_fill_manual(values = c('#999999', '#ffffff'), labels = c('OD', 'OS'))
+    } else {
+      p <- ggplot(data, aes_string(x = xaxis_category_factors, y = yaxis_category, color = color_category_factors))
+      p <- p + scale_color_manual(values = c('#ff6347', '#4169e1'), labels = c('OD', 'OS'))
+    }
     p <- p + scale_color_discrete(name = element_blank(), labels = c('OD', 'OS'))
-    p <- p + scale_color_manual(values = c('#ff6347', '#4169e1'), labels = c('OD', 'OS'))
   } else if (! show_both_eyes) {
     p <- ggplot(data, aes_string(x = xaxis_category_factors, y = yaxis_category))
   } else {
