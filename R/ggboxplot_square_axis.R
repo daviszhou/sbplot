@@ -81,4 +81,5 @@ boxplot_square_axis <- function(data, title, xaxis_category, yaxis_category, xax
                        expand = FALSE,
                        clip = "on")
   p <- p + scale_y_continuous(breaks = yaxis)
+  return(p)
 }
