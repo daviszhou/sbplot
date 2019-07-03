@@ -5,6 +5,8 @@
 boxplot_square_axis <- function(data, title, xaxis_category, yaxis_category, xaxis, yaxis,
                                 custom_whiskers=TRUE,
                                 color_category=NULL,
+                                color_scale=NULL,
+                                color_labels=NULL,
                                 change_fill_color=TRUE,
                                 font_size=10) {
 
@@ -27,10 +29,10 @@ boxplot_square_axis <- function(data, title, xaxis_category, yaxis_category, xax
   if (!is.null(color_category)) {
     if (change_fill_color) {
       p <- ggplot(data, aes_string(x = xaxis_category_factors, y = yaxis_category, fill = color_category_factors))
-      p <- p + scale_fill_manual(values = c('#999999', '#ffffff'), labels = c('OD', 'OS'))
+      p <- p + scale_fill_manual(values=color_scale, labels=color_labels)
     } else {
       p <- ggplot(data, aes_string(x = xaxis_category_factors, y = yaxis_category, color = color_category_factors))
-      p <- p + scale_color_manual(values = c('#ff6347', '#4169e1'), labels = c('OD', 'OS'))
+      p <- p + scale_color_manual(values=color_scale, labels=color_labels)
     }
     p <- p + scale_color_discrete(name = element_blank(), labels = c('OD', 'OS'))
   } else if (is.null(color_category)) {
