@@ -3,9 +3,8 @@
 #' This function allows easier creation of square with custom axes ranges.
 #'
 boxplot_square_axis <- function(data, title, xaxis_category, yaxis_category, xaxis, yaxis,
-                                show_both_eyes=FALSE,
-                                color_category=NULL,
                                 custom_whiskers=TRUE,
+                                color_category=NULL,
                                 change_fill_color=TRUE,
                                 font_size=10) {
 
@@ -25,7 +24,7 @@ boxplot_square_axis <- function(data, title, xaxis_category, yaxis_category, xax
   ymin <- min(yaxis) - yaxis_edge_padding
   ymax <- max(yaxis) + yaxis_edge_padding
 
-  if (show_both_eyes) {
+  if (!is.null(color_category)) {
     if (change_fill_color) {
       p <- ggplot(data, aes_string(x = xaxis_category_factors, y = yaxis_category, fill = color_category_factors))
       p <- p + scale_fill_manual(values = c('#999999', '#ffffff'), labels = c('OD', 'OS'))
@@ -34,7 +33,7 @@ boxplot_square_axis <- function(data, title, xaxis_category, yaxis_category, xax
       p <- p + scale_color_manual(values = c('#ff6347', '#4169e1'), labels = c('OD', 'OS'))
     }
     p <- p + scale_color_discrete(name = element_blank(), labels = c('OD', 'OS'))
-  } else if (! show_both_eyes) {
+  } else if (is.null(color_category)) {
     p <- ggplot(data, aes_string(x = xaxis_category_factors, y = yaxis_category))
   } else {
     stop("ERROR: Please enter 'TRUE' or 'FALSE' to specify whether to plot both eyes")
