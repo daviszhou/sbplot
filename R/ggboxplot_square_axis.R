@@ -63,7 +63,7 @@ boxplot_square_axis <- function(data, title, xaxis_category, yaxis_category, xax
     p <- p + theme(plot.margin = unit(c(2,4,-50,4), "pt"))
   }
 
-  if (custom_whiskers) {
+  if (!is.null(custom_whiskers)) {
     make_custom_quartiles <- function(x) {
       q <- quantile(x, probs = boxplot_percentiles)
       names(q) <- c('ymin', 'lower', 'middle', 'upper', 'ymax')
