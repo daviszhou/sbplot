@@ -3,12 +3,14 @@
 #' This function allows easier creation of square with custom axes ranges.
 #'
 boxplot_square_axis <- function(data, title, xaxis_category, yaxis_category, xaxis, yaxis,
-                                custom_whiskers=TRUE,
+                                custom_whiskers=NULL,
                                 color_category=NULL,
                                 color_scale=NULL,
                                 color_labels=NULL,
                                 change_fill_color=TRUE,
                                 font_size=10) {
+
+  boxplot_percentiles = c(custom_whiskers[1], 0.25, 0.5, 0.75, custom_whiskers[2])
 
   xaxis_category_factors <- paste('factor(', xaxis_category, ')', sep = '' )
   color_category_factors <- paste('factor(', color_category, ')', sep= '')
@@ -63,7 +65,7 @@ boxplot_square_axis <- function(data, title, xaxis_category, yaxis_category, xax
 
   if (custom_whiskers) {
     make_custom_quartiles <- function(x) {
-      q <- quantile(x, probs = c(0.10, 0.25, 0.5, 0.75, 0.90))
+      q <- quantile(x, probs = boxplot_percentiles)
       names(q) <- c('ymin', 'lower', 'middle', 'upper', 'ymax')
       return(q)
     }
