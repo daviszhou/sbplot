@@ -31,12 +31,12 @@ boxplot_square_axis <- function(data, title, xaxis_category, yaxis_category, xax
   if (!is.null(color_category)) {
     if (change_fill_color) {
       p <- ggplot(data, aes_string(x = xaxis_category_factors, y = yaxis_category, fill = color_category_factors))
-      p <- p + scale_fill_manual(values=color_scale, labels=color_labels)
+      p <- p + scale_fill_manual(values = color_scale, labels = color_labels)
     } else {
       p <- ggplot(data, aes_string(x = xaxis_category_factors, y = yaxis_category, color = color_category_factors))
-      p <- p + scale_color_manual(values=color_scale, labels=color_labels)
+      p <- p + scale_color_manual(values = color_scale, labels = color_labels)
     }
-    p <- p + scale_color_discrete(name = element_blank(), labels = c('OD', 'OS'))
+    p <- p + scale_color_discrete(name = element_blank(), labels = color_labels)
   } else if (is.null(color_category)) {
     p <- ggplot(data, aes_string(x = xaxis_category_factors, y = yaxis_category))
   } else {
@@ -51,7 +51,7 @@ boxplot_square_axis <- function(data, title, xaxis_category, yaxis_category, xax
                               axis.line.x.bottom = element_line(colour = '#000000'),
                               axis.line.y.right = element_line(colour = '#000000'),
                               axis.line.y.left = element_line(colour = '#000000'),
-                              axis.title = element_blank(),
+                              axis.title.x = element_blank(),
                               axis.ticks.length = unit(.15, "cm"),
                               legend.title = element_blank())
   p <- p + ggtitle(title)
@@ -69,14 +69,14 @@ boxplot_square_axis <- function(data, title, xaxis_category, yaxis_category, xax
       names(q) <- c('ymin', 'lower', 'middle', 'upper', 'ymax')
       return(q)
     }
-    p <- p + stat_summary(fun.data=make_custom_quartiles, geom="errorbar", width = 0.5, position = position_dodge(width = 0.75)) # creates boxplot whiskers
-    p <- p + stat_summary(fun.data=make_custom_quartiles, fatten = 1, geom="boxplot", width = 0.6, position = position_dodge(width = 0.75)) # creates boxplots
+    p <- p + stat_summary(fun.data=make_custom_quartiles, geom="errorbar", color= '#333333', width = 0.4, position = position_dodge(width = 0.75)) # creates boxplot whiskers
+    p <- p + stat_summary(fun.data=make_custom_quartiles, geom="boxplot", fatten = 1, width = 0.6, position = position_dodge(width = 0.75)) # creates boxplots
   } else {
     p <- p + stat_boxplot(geom = 'errorbar', width = 0.5, position = position_dodge(width = 0.75)) # create boxplot whiskers
     p <- p + geom_boxplot(fatten = 1, outlier.shape = NA) # creates boxplots
   }
 
-  p <- p + stat_summary(fun.y = mean, geom = 'point', shape = 18, size = 2, position = position_dodge(width = 0.75))
+  p <- p + stat_summary(fun.y = mean, geom = 'point', shape = 18, size = 2, color= '#333333', position = position_dodge(width = 0.75))
   p <- p + coord_fixed(ratio = (xmax - xmin) / (ymax - ymin),
                        xlim = c(xmin, xmax),
                        ylim = c(ymin, ymax),
