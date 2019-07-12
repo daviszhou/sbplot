@@ -37,13 +37,12 @@ boxplot_square_axis <- function(data, xaxis_category, yaxis_category, xaxis, yax
       p <- p + scale_color_manual(values = color_scale, labels = color_labels)
     }
     p <- p + scale_color_discrete(name = element_blank(), labels = color_labels)
-  } else if (is.null(color_category)) {
-    p <- ggplot(data, aes_string(x = xaxis_category_factors, y = yaxis_category))
   } else {
-    stop("ERROR: Please enter 'TRUE' or 'FALSE' to specify whether to plot both eyes")
+    p <- ggplot(data, aes_string(x = xaxis_category_factors, y = yaxis_category))
   }
 
   p <- p + scale_x_discrete(name = element_blank(), labels = xaxis)
+  p <- p + scale_y_continuous(breaks = yaxis)
 
   if (!is.null(custom_whiskers)) {
     make_custom_quartiles <- function(x) {
@@ -64,6 +63,5 @@ boxplot_square_axis <- function(data, xaxis_category, yaxis_category, xaxis, yax
                        ylim = c(ymin, ymax),
                        expand = FALSE,
                        clip = "on")
-  p <- p + scale_y_continuous(breaks = yaxis)
   return(p)
 }
