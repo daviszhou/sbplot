@@ -2,7 +2,7 @@
 #'
 #' This function allows easier creation of square with custom axes ranges.
 #'
-boxplot_square_axis <- function(data, title, xaxis_category, yaxis_category, xaxis, yaxis,
+boxplot_square_axis <- function(data, xaxis_category, yaxis_category, xaxis, yaxis,
                                 custom_whiskers=NULL,
                                 color_category=NULL,
                                 color_scale=NULL,
@@ -44,24 +44,6 @@ boxplot_square_axis <- function(data, title, xaxis_category, yaxis_category, xax
   }
 
   p <- p + scale_x_discrete(name = element_blank(), labels = xaxis)
-  p <- p + theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
-                              text = element_text(colour = '#000000', size = font_size),
-                              axis.text = element_text(colour = '#000000', size = font_size),
-                              axis.line.x.top = element_line(colour = '#000000'),
-                              axis.line.x.bottom = element_line(colour = '#000000'),
-                              axis.line.y.right = element_line(colour = '#000000'),
-                              axis.line.y.left = element_line(colour = '#000000'),
-                              axis.title.x = element_blank(),
-                              axis.ticks.length = unit(.15, "cm"),
-                              legend.title = element_blank())
-  p <- p + ggtitle(title)
-  if (stri_detect_fixed(title, c('^')) || stri_detect_fixed(title, c('['))) { # changes margins if there is super/subscript in title
-    p <- p + theme(plot.title = element_text(hjust = 0.5, vjust = -0.001))
-    p <- p + theme(plot.margin = unit(c(-3,4,-50,4), "pt"))
-  } else {
-    p <- p + theme(plot.title = element_text(face = 'bold', hjust = 0.5))
-    p <- p + theme(plot.margin = unit(c(2,4,-50,4), "pt"))
-  }
 
   if (!is.null(custom_whiskers)) {
     make_custom_quartiles <- function(x) {
