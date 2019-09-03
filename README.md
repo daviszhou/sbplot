@@ -27,7 +27,7 @@ ymax = 1
 yinterval = 0.5
 yaxis = seq(ymin, ymax, yinterval)
                  
-p <- boxplot_square_axis(data, title, xaxis_category, yaxis_category, xaxis, yaxis,
+p <- boxplot_square_axis(data, xaxis_category, yaxis_category, xaxis, yaxis,
   custom_whiskers=TRUE,
   color_category=NULL,
   color_scale=NULL,
@@ -37,7 +37,6 @@ p <- boxplot_square_axis(data, title, xaxis_category, yaxis_category, xaxis, yax
 ```
 Function Arguments:
 * `data`: Data frame containing desired variables.
-* `title`: Graph title.
 * `xaxis_category`: Name of data frame column that contains the factors for x-axis categories.
 * `yaxis_category`: Name of data frame column that contains values for the y-axis.
 * `xaxis`: Custom labels for the x-axis. Set using `xaxis = c('X Group 1', 'X Group 2')`.
