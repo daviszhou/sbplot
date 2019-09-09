@@ -2,7 +2,7 @@
 #'
 #' This function allows easier creation of square with custom axes ranges.
 #'
-boxplot_square_axis <- function(data, xaxis_category, yaxis_category, xaxis, yaxis,
+boxplot_square_axis <- function(data, xaxis_category, yaxis_category, xaxis=NULL, yaxis=NULL,
                                 custom_whiskers=NULL,
                                 color_category=NULL,
                                 color_scale=NULL,
@@ -24,9 +24,15 @@ boxplot_square_axis <- function(data, xaxis_category, yaxis_category, xaxis, yax
     xmax <- number_factors + 0.75
   }
 
-  yaxis_edge_padding <- max(yaxis) / 30
-  ymin <- min(yaxis) - yaxis_edge_padding
-  ymax <- max(yaxis) + yaxis_edge_padding
+  if (!is.null(yaxis)) {
+    yaxis_edge_padding <- max(data[[yaxis_category]]) / 30
+    ymin <- min(data[[yaxis_category]]) - yaxis_edge_padding
+    ymax <- max(data[[yaxis_category]]) + yaxis_edge_padding
+  } else {
+    yaxis_edge_padding <- max(yaxis) / 30
+    ymin <- min(yaxis) - yaxis_edge_padding
+    ymax <- max(yaxis) + yaxis_edge_padding
+  }
 
   if (!is.null(color_category)) {
     if (change_fill_color) {
@@ -41,8 +47,12 @@ boxplot_square_axis <- function(data, xaxis_category, yaxis_category, xaxis, yax
     p <- ggplot(data, aes_string(x = xaxis_category_factors, y = yaxis_category))
   }
 
-  p <- p + scale_x_discrete(name = element_blank(), labels = xaxis)
-  p <- p + scale_y_continuous(breaks = yaxis)
+  if (!is.null(xaxis)) {
+    p <- p + scale_x_discrete(name = element_blank(), labels = xaxis)
+  }
+  if (!is.null(yaxis)) {
+    p <- p + scale_y_continuous(breaks = yaxis)
+  }
 
   if (!is.null(custom_whiskers)) {
     make_custom_quartiles <- function(x) {
