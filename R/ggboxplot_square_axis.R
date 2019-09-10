@@ -26,12 +26,12 @@ boxplot_square_axis <- function(data, xaxis_category, yaxis_category, xaxis=NULL
 
   if (!is.null(yaxis)) {
     yaxis_edge_padding <- max(data[[yaxis_category]]) / 30
-    ymin <- min(data[[yaxis_category]]) - yaxis_edge_padding
-    ymax <- max(data[[yaxis_category]]) + yaxis_edge_padding
-  } else {
-    yaxis_edge_padding <- max(yaxis) / 30
     ymin <- min(yaxis) - yaxis_edge_padding
     ymax <- max(yaxis) + yaxis_edge_padding
+  } else {
+    yaxis_edge_padding <- max(yaxis) / 30
+    ymin <- min(data[[yaxis_category]]) - yaxis_edge_padding
+    ymax <- max(data[[yaxis_category]]) + yaxis_edge_padding
   }
 
   if (!is.null(color_category)) {
